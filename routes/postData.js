@@ -1,16 +1,21 @@
 const express = require("express");
 const postData = express.Router();
-const User = require("../models/User");
+const Activity = require("../models/Activity");
 
 
 postData.post("/activities", (req, res)=>{
-    var userInformation = req.body;
+    var userInformation = req.body.activity;
+    var newActivity = new Activity(userInformation);
 
+    newActivity
+    .save()
+    .then(savedActivity => {
+        return res.send(savedActivity);
     
-
-    res.send(userInformation);
-
-
+})
+    .catch(err =>{
+        res.status(500).send(err);
+    });
 
 })
 

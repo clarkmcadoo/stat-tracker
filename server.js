@@ -1,19 +1,23 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const dbUrl = 'mongodb://localhost/27017/stat-tracker';
+const dbUrl = 'mongodb://localhost:27017/stat-tracker';
 const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
-const User = require("./models/User");
+const Activity = require("./models/Activity");
 const app = express();
+const checkAuth = require("./checkAuth");
 
-const getUserData = require("./routes/getUserData");
+const getData = require("./routes/getData");
 const postData = require("./routes/postData");
+const updateData = require("./routes/updateData");
+const deleteData = require("./routes/deleteData");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/api", getUserData);
-app.use("/api", postData);
-
+app.use("/api",checkAuth, getData);
+app.use("/api",checkAuth, postData);
+app.use("/api",checkAuth, updateData);
+app.use("/api",checkAuth, deleteData);
 
 
 mongoose.connect(dbUrl).then(function(err, db) {
