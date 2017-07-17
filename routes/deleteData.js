@@ -15,4 +15,16 @@ deleteData.delete("/activities/:id", (req, res)=>{
     });
 })
 
+deleteData.delete("/stats/:id/", (req, res)=>{
+
+
+    Activity.remove({_id: req.params.id})
+    .then(deletedStat=> {
+      res.send(deletedStat);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+})
+
 module.exports = deleteData;
