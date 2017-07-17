@@ -19,4 +19,18 @@ postData.post("/activities", (req, res)=>{
 
 })
 
+postData.post("/activities/:id/stat", (req, res)=>{
+
+
+    Activity.updateOne({_id: req.params.id}, {$push: {stats: req.body.stat}})
+    .then(addedStatActivity => {
+      res.send(addedStatActivity);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
+})
+
+
+
 module.exports = postData;
